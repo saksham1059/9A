@@ -2,51 +2,48 @@
 <html>
 <head>
   <title>Upload Homework</title>
-  <style>
-    body {
-      font-family: "Lato", sans-serif;
-      text-align: center;
-    }
+  <!-- Include Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+  <script>
+    // Your Firebase configuration object
+    var firebaseConfig = {
+      apiKey: "AIzaSyAqL2Qw8PMsvF_68VlNxCaKKt9ldTClbP4",
+      authDomain: "upload-372ff.firebaseapp.com",
+      projectId: "upload-372ff",
+      storageBucket: "upload-372ff.appspot.com",
+      messagingSenderId: "967062218795",
+      appId: "1:967062218795:web:083e9c6a2ebdf2b7d8626e",
+      measurementId: "G-VBJ93FPBJ5"
+    };
 
-    h1 {
-      color: red; /* Change the text color to red */
-    }
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
 
-    /* Additional styles for the file upload form */
-    .upload-form {
-      margin-top: 50px;
-      max-width: 400px;
-      margin: 50px auto;
-      padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      box-shadow: 0 0 5px #ccc;
-    }
+    // Function to handle file upload
+    function saveUploadedFiles() {
+      const fileInput = document.getElementById("homeworkFiles");
+      const files = fileInput.files;
 
-    .upload-form label {
-      display: block;
-      margin-bottom: 10px;
-      font-size: 18px;
-      color: #333;
-    }
+      // Reference to Firebase Cloud Storage
+      var storageRef = firebase.storage().ref();
 
-    .upload-form input[type="file"] {
-      margin-bottom: 10px;
-    }
+      // Loop through the selected files and upload them to Firebase Storage
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+        const fileName = "homework-" + uniqueSuffix + "-" + file.name;
 
-    .upload-form input[type="submit"] {
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
+        // Upload the file to Firebase Storage
+        var fileRef = storageRef.child(fileName);
+        fileRef.put(file).then(function(snapshot) {
+          console.log("File uploaded successfully!");
+        }).catch(function(error) {
+          console.error("Error uploading file:", error);
+        });
+      }
     }
-
-    .upload-form input[type="submit"]:hover {
-      background-color: #45a049;
-    }
-  </style>
+  </script>
 </head>
 <body>
   <h1>Upload Homework</h1>
@@ -58,25 +55,5 @@
       <input type="submit" value="Upload Homework">
     </form>
   </div>
-
-  <button onclick="goToIndex()">Go Back to Home</button>
-
-  <script>
-    function saveUploadedFiles() {
-      const fileInput = document.getElementById("homeworkFiles");
-      const files = fileInput.files;
-
-      const uploadedFiles = [];
-      for (let i = 0; i < files.length; i++) {
-        uploadedFiles.push(files[i].name);
-      }
-
-      localStorage.setItem("uploadedFiles", JSON.stringify(uploadedFiles));
-    }
-
-    function goToIndex() {
-      window.location.href = "index.html";
-    }
-  </script>
 </body>
 </html>
