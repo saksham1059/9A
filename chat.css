@@ -1,0 +1,172 @@
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 24px;
+}
+
+.chat-container {
+  height: 300px;
+  overflow-y: scroll;
+  border: 1px solid #aaa;
+  padding: 10px;
+}
+
+.message {
+  margin-bottom: 10px;
+}
+
+.message-username {
+  font-weight: bold;
+}
+
+.message-content {
+  margin-left: 5px;
+}
+
+.input-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 10px;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #222;
+  color: #fff;
+}
+
+button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.username-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.username-input {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #222;
+  color: #fff;
+}
+
+.username-submit {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.username-submit:hover {
+  background-color: #0056b3;
+}
+
+/* Futuristic styles for mobile */
+@media screen and (max-width: 600px) {
+  body.mobile {
+    background-color: #000;
+    color: #fff;
+  }
+
+  h1 {
+    margin-top: 20px;
+    font-size: 20px;
+  }
+
+  .chat-container {
+    height: 250px;
+  }
+
+  .input-container {
+    margin: 10px;
+  }
+
+  input[type="text"] {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 14px;
+  }
+
+  .username-container {
+    margin-bottom: 10px;
+  }
+
+  .username-input {
+    font-size: 14px;
+  }
+
+  .username-submit {
+    font-size: 14px;
+  }
+}
+
+/* Futuristic styles for desktop */
+@media screen and (min-width: 601px) {
+  body.desktop {
+    background-color: #000;
+    color: #fff;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  .chat-container {
+    height: 400px;
+  }
+
+  .input-container {
+    margin: 30px;
+  }
+
+  input[type="text"] {
+    font-size: 18px;
+  }
+
+  button {
+    font-size: 18px;
+  }
+
+  .username-container {
+    margin-bottom: 30px;
+  }
+
+  .username-input {
+    font-size: 18px;
+  }
+
+  .username-submit {
+    font-size: 18px;
+  }
+}

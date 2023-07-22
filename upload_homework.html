@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Upload Homework</title>
+  <style>
+    body {
+      font-family: "Lato", sans-serif;
+      text-align: center;
+    }
+
+    h1 {
+      color: red; /* Change the text color to red */
+    }
+
+    /* Additional styles for the file upload form */
+    .upload-form {
+      margin-top: 50px;
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 0 5px #ccc;
+    }
+
+    .upload-form label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .upload-form input[type="file"] {
+      margin-bottom: 10px;
+    }
+
+    .upload-form input[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .upload-form input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h1>Upload Homework</h1>
+  <div class="upload-form">
+    <form onsubmit="saveUploadedFiles()" enctype="multipart/form-data">
+      <label for="homeworkFiles">Select Homework Files:</label>
+      <input type="file" id="homeworkFiles" name="homeworkFiles[]" accept=".pdf, .doc, .docx, .txt" multiple>
+      <br>
+      <input type="submit" value="Upload Homework">
+    </form>
+  </div>
+
+  <button onclick="goToIndex()">Go Back to Home</button>
+
+  <script>
+    function saveUploadedFiles() {
+      const fileInput = document.getElementById("homeworkFiles");
+      const files = fileInput.files;
+
+      const uploadedFiles = [];
+      for (let i = 0; i < files.length; i++) {
+        uploadedFiles.push(files[i].name);
+      }
+
+      localStorage.setItem("uploadedFiles", JSON.stringify(uploadedFiles));
+    }
+
+    function goToIndex() {
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
