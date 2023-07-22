@@ -2,59 +2,61 @@
 <html>
 <head>
   <title>Uploaded Homework Files</title>
-  <style>
-    body {
-      font-family: "Lato", sans-serif;
-      text-align: center;
+  <!-- Include Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+  <script>
+    // Your Firebase configuration object
+    var firebaseConfig = {
+      apiKey: "AIzaSyAqL2Qw8PMsvF_68VlNxCaKKt9ldTClbP4",
+  authDomain: "upload-372ff.firebaseapp.com",
+  projectId: "upload-372ff",
+  storageBucket: "upload-372ff.appspot.com",
+  messagingSenderId: "967062218795",
+  appId: "1:967062218795:web:083e9c6a2ebdf2b7d8626e",
+  measurementId: "G-VBJ93FPBJ5"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Function to display uploaded files
+    function displayUploadedFiles() {
+      // Reference to Firebase Cloud Storage
+      var storageRef = firebase.storage().ref();
+
+      // Get the list of files in the storage bucket
+      storageRef.listAll().then(function(result) {
+        const fileList = document.querySelector(".file-list ul");
+        result.items.forEach(function(itemRef) {
+          itemRef.getDownloadURL().then(function(url) {
+            const listItem = document.createElement("li");
+            const downloadLink = document.createElement("a");
+            downloadLink.href = url;
+            downloadLink.textContent = itemRef.name;
+            listItem.appendChild(downloadLink);
+            fileList.appendChild(listItem);
+          }).catch(function(error) {
+            console.error("Error getting file download URL:", error);
+          });
+        });
+      }).catch(function(error) {
+        console.error("Error listing files:", error);
+      });
     }
 
-    h1 {
-      color: red; /* Change the text color to red */
-    }
-
-    /* Additional styles for the file list */
-    .file-list {
-      margin-top: 50px;
-      max-width: 600px;
-      margin: 50px auto;
-      padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      box-shadow: 0 0 5px #ccc;
-    }
-
-    .file-list li {
-      list-style-type: none;
-      margin-bottom: 10px;
-    }
-  </style>
+    // Call the displayUploadedFiles function when the page loads
+    document.addEventListener("DOMContentLoaded", displayUploadedFiles);
+  </script>
 </head>
 <body>
   <h1>Uploaded Homework Files</h1>
   <div class="file-list">
     <ul>
-      <script>
-        function goToIndex() {
-          window.location.href = "upload_homework.html";
-        }
-
-        function displayUploadedFiles() {
-          const uploadedFiles = JSON.parse(localStorage.getItem("uploadedFiles"));
-
-          if (uploadedFiles && uploadedFiles.length > 0) {
-            for (let i = 0; i < uploadedFiles.length; i++) {
-              document.write(`<li><a href="/path_to_uploaded_files/${uploadedFiles[i]}" download>${uploadedFiles[i]}</a></li>`);
-            }
-          } else {
-            document.write("<li>No files uploaded yet.</li>");
-          }
-        }
-
-        displayUploadedFiles();
-      </script>
+      <!-- The uploaded files will be dynamically added here -->
     </ul>
   </div>
 
-  <button onclick="goToIndex()">Go Back to Home</button>
+  <a href="/upload_homework.html">Go Back to Home</a>
 </body>
 </html>
