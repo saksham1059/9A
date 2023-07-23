@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Uploaded Files</title>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
+</head>
+<body>
+    <ul id="fileList"></ul>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyAqL2Qw8PMsvF_68VlNxCaKKt9ldTClbP4",
+            authDomain: "upload-372ff.firebaseapp.com",
+            databaseURL: "https://upload-372ff-default-rtdb.firebaseio.com",
+            projectId: "upload-372ff",
+            storageBucket: "upload-372ff.appspot.com",
+            messagingSenderId: "967062218795",
+            appId: "1:967062218795:web:083e9c6a2ebdf2b7d8626e",
+            measurementId: "G-VBJ93FPBJ5"
+        };
+        firebase.initializeApp(firebaseConfig);
+        var storage = firebase.storage();
+        var storageRef = storage.ref('homework/');
+        storageRef.listAll().then(function(result){
+            result.items.forEach(function(imageRef){
+                imageRef.getDownloadURL().then(function(url){
+                    var li = document.createElement('li');
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.innerText = imageRef.name;
+                    li.appendChild(a);
+                    document.getElementById('fileList').appendChild(li);
+                }).catch(function(error){
+                    console.log(error);
+                });
+            });
+        }).catch(function(error){
+            console.log(error);
+        });
+    </script>
+
+</body>
+</html>

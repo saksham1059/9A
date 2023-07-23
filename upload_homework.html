@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Homework</title>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
+</head>
+<body>
+    <input type="file" id="fileButton" value="upload" multiple>
+    <button onclick="uploadFile()">Upload</button>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyAqL2Qw8PMsvF_68VlNxCaKKt9ldTClbP4",
+            authDomain: "upload-372ff.firebaseapp.com",
+            databaseURL: "https://upload-372ff-default-rtdb.firebaseio.com",
+            projectId: "upload-372ff",
+            storageBucket: "upload-372ff.appspot.com",
+            messagingSenderId: "967062218795",
+            appId: "1:967062218795:web:083e9c6a2ebdf2b7d8626e",
+            measurementId: "G-VBJ93FPBJ5"
+        };
+        firebase.initializeApp(firebaseConfig);
+        var storage = firebase.storage();
+
+        function uploadFile(){
+            var uploader = document.getElementById('fileButton');
+            for(var i = 0; i < uploader.files.length; i++) {
+                var file = uploader.files[i];
+                var storageRef = storage.ref('homework/' + file.name);
+                storageRef.put(file);
+            }
+        }
+    </script>
+
+</body>
+</html>
