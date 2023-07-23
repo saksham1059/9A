@@ -5,6 +5,7 @@
   <!-- Include Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   <style>
     body {
       font-family: "Lato", sans-serif;
@@ -65,6 +66,9 @@
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
 
+    // Get a reference to Firestore
+    var db = firebase.firestore();
+
     // Function to handle file upload
     function saveUploadedFiles() {
       const fileInput = document.getElementById("homeworkFiles");
@@ -83,6 +87,16 @@
         var fileRef = storageRef.child(fileName);
         fileRef.put(file).then(function(snapshot) {
           console.log("File uploaded successfully!");
+
+          // Save the file metadata to Firestore
+          db.collection("uploadedFiles").doc(fileName).set({
+            name: file.name,
+            fullPath: snapshot.metadata.fullPath
+          }).then(function() {
+            console.log("File metadata saved to Firestore!");
+          }).catch(function(error) {
+            console.error("Error saving file metadata to Firestore:", error);
+          });
         }).catch(function(error) {
           console.error("Error uploading file:", error);
         });
@@ -100,5 +114,6 @@
       <input type="submit" value="Upload Homework">
     </form>
   </div>
+  <a href="/index.html">Go Back to Home</a>
 </body>
 </html>
