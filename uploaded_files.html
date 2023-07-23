@@ -5,6 +5,7 @@
   <!-- Include Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   <style>
     body {
       font-family: "Lato", sans-serif;
@@ -46,20 +47,28 @@
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
 
+    // Reference to Firebase Cloud Storage
+    var storageRef = firebase.storage().ref();
+
+    // Get a reference to Firestore
+    var db = firebase.firestore();
+
     // Function to display uploaded files
     function displayUploadedFiles() {
-      // Reference to Firebase Cloud Storage
-      var storageRef = firebase.storage().ref();
 
-      // Get the list of files in the storage bucket
-      storageRef.listAll().then(function(result) {
-        const fileList = document.querySelector(".file-list ul");
-        result.items.forEach(function(itemRef) {
-          itemRef.getDownloadURL().then(function(url) {
+      // Get the list of uploaded files from Firestore
+      db.collection("uploadedFiles").get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          var fileMetadata = doc.data();
+
+          // Get the download URL of the file from Firebase Storage
+          storageRef.child(fileMetadata.fullPath).getDownloadURL().then(function(url) {
+            // Create a new list item for the file and append it to the file list
+            const fileList = document.querySelector(".file-list ul");
             const listItem = document.createElement("li");
             const downloadLink = document.createElement("a");
             downloadLink.href = url;
-            downloadLink.textContent = itemRef.name;
+            downloadLink.textContent = fileMetadata.name;
             listItem.appendChild(downloadLink);
             fileList.appendChild(listItem);
           }).catch(function(error) {
@@ -67,7 +76,7 @@
           });
         });
       }).catch(function(error) {
-        console.error("Error listing files:", error);
+        console.error("Error getting list of uploaded files:", error);
       });
     }
 
@@ -82,7 +91,6 @@
       <!-- The uploaded files will be dynamically added here -->
     </ul>
   </div>
-
-  <a href="/upload_homework.html">Go Back to Home</a>
+  <a href="/index.html">Go Back to Home</a>
 </body>
 </html>
