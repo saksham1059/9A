@@ -8,6 +8,7 @@
 <body>
     <input type="file" id="fileButton" value="upload" multiple>
     <button onclick="uploadFile()">Upload</button>
+    <progress value="0" max="100" id="uploader">0%</progress>
 
     <script>
         var firebaseConfig = {
@@ -24,14 +25,33 @@
         var storage = firebase.storage();
 
         function uploadFile(){
-            var uploader = document.getElementById('fileButton');
-            for(var i = 0; i < uploader.files.length; i++) {
-                var file = uploader.files[i];
+            var uploader = document.getElementById('uploader');
+            var fileButton = document.getElementById('fileButton');
+            for(var i = 0; i < fileButton.files.length; i++) {
+                var file = fileButton.files[i];
                 var storageRef = storage.ref('homework/' + file.name);
-                storageRef.put(file);
+                var task = storageRef.put(file);
+
+                task.on('state_changed',
+
+                function progress(snapshot){
+                    var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    uploader.value = percentage;
+                },
+
+                function error(err){
+                    console.log('Error in uploading file: ', err);
+                },
+
+                function complete(){
+                    console.log('Upload completed!');
+                });
             }
         }
     </script>
+
+</body>
+</html>
 
 </body>
 </html>
