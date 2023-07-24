@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Announcements</title>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+</head>
+<body>
+    <div id="announcementList"></div>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyDZMISjUU7aL5B8UaQWP-ixPmaQbdFLw6g",
+            authDomain: "classpurposr.firebaseapp.com",
+            projectId: "classpurposr",
+            storageBucket: "classpurposr.appspot.com",
+            messagingSenderId: "815886984343",
+            appId: "1:815886984343:web:1d03566d8a3d1ec8ad75d2",
+            measurementId: "G-HEJ6HHW3NM"
+        };
+        firebase.initializeApp(firebaseConfig);
+        var database = firebase.database();
+        var announcementListDiv = document.getElementById('announcementList');
+
+        function appendAnnouncement(announcementText) {
+            var div = document.createElement('div');
+            div.innerText = announcementText;
+            div.style.marginBottom = '20px';
+            announcementListDiv.appendChild(div);
+        }
+
+        var announcementsRef = database.ref('announcements/');
+        announcementsRef.on('value', function(snapshot) {
+            announcementListDiv.innerHTML = '';
+            snapshot.forEach(function(childSnapshot) {
+                var announcementText = childSnapshot.val();
+                appendAnnouncement(announcementText);
+            });
+        });
+    </script><br>
+    <a href="index.html">go home</a>
+</body>
+</html>

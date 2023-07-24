@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Uploaded Syllabus</title>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
+</head>
+<body>
+    <ul id="fileList"></ul>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyAqL2Qw8PMsvF_68VlNxCaKKt9ldTClbP4",
+            authDomain: "upload-372ff.firebaseapp.com",
+            databaseURL: "https://upload-372ff-default-rtdb.firebaseio.com",
+            projectId: "upload-372ff",
+            storageBucket: "upload-372ff.appspot.com",
+            messagingSenderId: "967062218795",
+            appId: "1:967062218795:web:083e9c6a2ebdf2b7d8626e",
+            measurementId: "G-VBJ93FPBJ5"
+        };
+        firebase.initializeApp(firebaseConfig);
+        var storage = firebase.storage();
+        var storageRef = storage.ref('syllabus/');
+
+        storageRef.listAll().then(function(result){
+            result.items.forEach(function(fileRef){
+                fileRef.getDownloadURL().then(function(url){
+                    var li = document.createElement('li');
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.innerText = fileRef.name;
+                    li.appendChild(a);
+                    document.getElementById('fileList').appendChild(li);
+                }).catch(function(error){
+                    console.log(error);
+                });
+            });
+        }).catch(function(error){
+            console.log(error);
+        });
+    </script><br>
+<a href="index.html">go home</a>
+</body>
+</html>
